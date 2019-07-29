@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/insighteam/back_end/issues"
   },
-  "homepage": "https://github.com/insighteam/back_end#readme"
+  "homepage": "https://github.com/insighteam/back_end#readme",
+  "dependencies": {
+    "web3": "^1.2.0"
+  }
 }

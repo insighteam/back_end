@@ -54,7 +54,7 @@ router.post('/', async(req, res) => {
 
                         if (err) {
                             console.log(err);
-                            res.status(200).send(util.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.CREATED_USER_FAIL));
+                            res.status(200).send(utils.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.CREATED_USER_FAIL));
                         }
                     });
                 })

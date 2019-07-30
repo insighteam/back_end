@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/insighteam/back_end#readme",
   "dependencies": {
+    "express-generator": "^4.16.1",
     "web3": "^1.2.0"
   }
 }

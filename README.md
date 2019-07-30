@@ -12,12 +12,12 @@ CREATE DATABASE moment;
 use moment;
 
 CREATE TABLE user (
-    -> idx INT(11) NOT NULL auto_increment,
-    -> id VARCHAR(45) NOT NULL,
-    -> password VARCHAR(45) NOT NULL,
-    -> name VARCHAR(45) NOT NULL,
-    -> PRIMARY KEY(idx)
-    -> ) DEFAULT CHARSET=utf8;
+	idx INT(11) NOT NULL auto_increment,
+	id VARCHAR(45) NOT NULL,
+	password VARCHAR(45) NOT NULL,
+	name VARCHAR(45) NOT NULL,
+	PRIMARY KEY(idx)
+) DEFAULT CHARSET=utf8;
 ```
 
 

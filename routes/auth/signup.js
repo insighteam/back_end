@@ -1,5 +1,6 @@
 var express = require('express');
 var mysql = require('mysql');
+var web3 = require('web3');
 var router = express.Router();
 
 const utils = require('../../utils/format');
@@ -21,44 +22,49 @@ function validateForm(form) {
         return '이름을 입력해주세요.';
     }
 
+    if(!form.email) {
+        return '이메일을 입력해주세요.';
+    }
+
+    if(!form.address) {
+        return '주소을 입력해주세요.';
+    }
+
     return null;
 }
 
 router.post('/', async(req, res) => {
     var err = validateForm(req.body);
     if(err) {
-        res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, err));
+        return null;
     }
 
     const id = req.body.id;
     const password = req.body.password;
     const name = req.body.name;
+    const email = req.body.email;
+    const address = req.body.address;
 
     const selectQuery = 'SELECT * FROM user WHERE id = ?';
-    const insertQuery = 'INSERT INTO user (id, password, name) VALUES (?, ?, ?)';
+    const insertQuery = 'INSERT INTO user (id, password, name, email, address, private_key) VALUES (?, ?, ?, ?, ?, ?)';
 
-    if (!id || !password || !name) {
-        res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
-    } else { 
-        conn.query(selectQuery, [id], function(err, user) {
-            if (user.length > 0) {
-                res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, resMessage.ALREADY_USER));
-            } else {
-                conn.query(insertQuery, [id, password, name], function(err, insertResult) {
-                    if (!insertResult) {
-                        res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.USER_DB_INSERT_ERROR))
-                    } else {
-                        res.status(200).send(utils.successTrue(statusCode.CREATED, resMessage.CREATED_USER, req.body));
-                    }
+    const privateKey = web3.eth.accounts.create().privateKey.substr(2);
+    console.log(privateKey);
 
-                    if (err) {
-                        console.log(err);
-                        res.status(200).send(utils.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.CREATED_USER_FAIL));
-                    }
-                });
-            }
-        })
-    }
+    conn.query(selectQuery, [id], function(err, user) {
+        if (!user) {
+            conn.query(insertQuery, [id, password, name, email, address, privateKey], function(err, insertResult) {
+                if (insertResult) {
+                    return res.json({code: 200});
+                }
+
+                if (err) {
+                    console.log(err);
+                    return null;
+                }
+            });
+        }
+    })
 });
 
 module.exports = router;

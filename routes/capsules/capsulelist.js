@@ -9,7 +9,7 @@ const statusCode = require('../../utils/status-code');
 const conn = mysql.createConnection(require('../../config/mysql-config.js'));
 conn.connect()
 
-router.get('/', authUtil.isLoggedin, async(req, res) => {
+router.get('/:idx', authUtil.isLoggedin, async(req, res) => {
 
 });
 

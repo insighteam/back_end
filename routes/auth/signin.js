@@ -9,7 +9,6 @@ const conn = mysql.createConnection(require('../../config/mysql-config.js'));
 conn.connect()
 
 function validateForm(form) {
-    console.log(form.id);
     if(!form.id) {
         return '아이디를 입력해주세요.';
     } 
@@ -26,7 +25,7 @@ router.post('/', async(req, res) => {
 
     var err = validateForm(req.body);
     if(err) {
-        return res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, err));
+        return null;
     }
 
     const id = req.body.id;
@@ -34,22 +33,14 @@ router.post('/', async(req, res) => {
     const selectQuery = 'SELECT * FROM user WHERE id = ?';
 
     conn.query(selectQuery, [id], function(err, selectResult) {
-        if(selectResult || selectResult.length > 0) {
-            console.log(selectResult)
+        if(selectResult && selectResult.length > 0) {
             if(password == selectResult[0].password) {
-
-                const user = {
-                    idx: selectResult[0].idx,
-                    id: selectResult[0].id,
-                    name: selectResult[0].name
-                };
-
-                res.json(selectResult[0].idx);
+                return res.json({idx: selectResult[0].idx});
             }
         }
     })
 
-    res.status(200).send(utils.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.LOGIN_FAIL));
+    return null;
 });
 
 module.exports = router;

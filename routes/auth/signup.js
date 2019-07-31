@@ -44,20 +44,18 @@ router.post('/', async(req, res) => {
             if (user.length > 0) {
                 res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, resMessage.ALREADY_USER));
             } else {
-                bcrypt.hash(password, 10, function (err, hash) {
-                    conn.query(insertQuery, [id, hash, name], function(err, insertResult) {
-                        if (!insertResult) {
-                            res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.USER_DB_INSERT_ERROR))
-                        } else {
-                            res.status(200).send(utils.successTrue(statusCode.CREATED, resMessage.CREATED_USER, req.body));
-                        }
+                conn.query(insertQuery, [id, password, name], function(err, insertResult) {
+                    if (!insertResult) {
+                        res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.USER_DB_INSERT_ERROR))
+                    } else {
+                        res.status(200).send(utils.successTrue(statusCode.CREATED, resMessage.CREATED_USER, req.body));
+                    }
 
-                        if (err) {
-                            console.log(err);
-                            res.status(200).send(utils.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.CREATED_USER_FAIL));
-                        }
-                    });
-                })
+                    if (err) {
+                        console.log(err);
+                        res.status(200).send(utils.successFalse(statusCode.INTERNAL_SERVER_ERROR, resMessage.CREATED_USER_FAIL));
+                    }
+                });
             }
         })
     }

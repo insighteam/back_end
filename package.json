@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/insighteam/back_end#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-generator": "^4.16.1",

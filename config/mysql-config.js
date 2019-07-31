@@ -1,7 +1,7 @@
 module.exports = {
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: '12345678',
     database: 'moment'
   }
   

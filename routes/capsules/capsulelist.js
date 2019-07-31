@@ -1,5 +1,4 @@
 var express = require('express');
-var bcrypt = require('bcrypt');
 var mysql = require('mysql');
 var router = express.Router();
 

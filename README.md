@@ -35,6 +35,8 @@ CREATE TABLE invitation (
 	idx INT(11) NOT NULL,
 	latitude DOUBLE(20, 10) NOT NULL,
 	longitude DOUBLE(20, 10) NOT NULL,
+	money INT(11) NOT NULL,
+	end_date DATE NOT NULL,
 	FOREIGN KEY (idx) REFERENCES user(idx)
 ) DEFAULT CHARSET=UTF8;	
 ```

@@ -23,7 +23,7 @@ function validateForm(form) {
 
 router.get('/:idx/invitations', async(req, res, next) => {
     try{
-        const getInvitationsQuery = 'SELECT latitude, longitude FROM invitation WHERE idx = ?';
+        const getInvitationsQuery = 'SELECT latitude, longitude, money, end_date FROM invitation WHERE idx = ?';
         conn.query(getInvitationsQuery, [req.params.idx], function(err, invitations) {
             if (invitations.length > 0) {
                 return res.status(200).send(utils.successTrue(statusCode.OK, resMessage.INVITATIONS_SUCCESS, invitations));
@@ -45,8 +45,8 @@ router.post('/:idx/invitations', async(req, res, next) => {
     }
 
     try{
-        const insertInvitationQuery = 'INSERT INTO invitation (idx, latitude, longitude) VALUES (?, ?, ?)';
-        conn.query(insertInvitationQuery, [req.params.idx, req.body.latitude, req.body.longitude], function(err, insertResult) {
+        const insertInvitationQuery = 'INSERT INTO invitation (idx, latitude, longitude, money, end_date) VALUES (?, ?, ?, ?, ?)';
+        conn.query(insertInvitationQuery, [req.params.idx, req.body.latitude, req.body.longitude, req.body.money, req.body.end_date], function(err, insertResult) {
             if (insertResult) {
                 return res.json({code: 200});
             } else {

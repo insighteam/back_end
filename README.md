@@ -11,35 +11,23 @@ config/mysql-config.js에서 각자 설정
 CREATE DATABASE moment;
 use moment;
 
-CREATE TABLE user (
-	idx INT(11) NOT NULL auto_increment,
-	id VARCHAR(45) NOT NULL,
-	password VARCHAR(45) NOT NULL,
-	name VARCHAR(45) NOT NULL,
-	PRIMARY KEY(idx)
-) DEFAULT CHARSET=utf8;
-```
-
-####
-create table user(
+CREATE TABLE user(
 	idx INT(11) NOT NULL auto_increment,
 	id VARCHAR(45) NOT NULL,
 	password VARCHAR(45) NOT NULL,
 	name VARCHAR(45) NOT NULL,
 	email email NOT NULL,
 	address VARCHAR(45) NOT NULL,
-	privatekey VARCHAR(100),
-	walletaddress VARCHAR(100)
+	private_key VARCHAR(100),
+	wallet_address VARCHAR(100)
 	PRIMARY KEY(idx)
 ) DEFAULT CHARSET=UTF8;
 
-
 CREATE TABLE capsule(
-	idx INT(11) NOT NULL auto_increment,
-	capaddress VARCHAR(100) NOT NULL,
+	idx INT(11) NOT NULL,
+	capsule_address VARCHAR(100) NOT NULL,
 	money INT(11) NOT NULL,
-	PRIMARY KEY (idx,capaddress)
-)DEFAULT CHARSET=UTF8;
-	
-
-
+	PRIMARY KEY (idx, capsule_address),
+	FOREIGN KEY (idx) REFERENCES user(idx)
+) DEFAULT CHARSET=UTF8;	
+```

@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 
 contract Capsule {
     uint time;  // 캡슐을 여는 시간
-    uint limit; // 캡슐 여는 기간 
+    uint limit; // 캡슐 여는 기간
     address[] owner;    // 캡슐에 넣은 사람들 지갑 주소
     mapping(address => bool) taked;
     address payable public manager;    // 서버
@@ -13,8 +13,8 @@ contract Capsule {
     string key;
     uint balance;
     bool public mode = false;
-    address [] moneyreturn;
-    
+    address[] moneyreturn;
+
     struct coordinate {
         uint longitude;
         uint latitude;

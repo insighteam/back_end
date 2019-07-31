@@ -1,6 +1,8 @@
 var express = require('express');
 var mysql = require('mysql');
-var web3 = require('web3');
+var Web3 = require('web3');
+// web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545")); 
+var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545')); 
 var router = express.Router();
 
 const utils = require('../../utils/format');
@@ -33,12 +35,14 @@ function validateForm(form) {
     return null;
 }
 
-router.post('/', async(req, res) => {
+router.post('/', async(req, res, next) => {
     var err = validateForm(req.body);
     if(err) {
-        return null;
+        console.log(err);
+        next(err);
     }
 
+    console.log("out!");
     const id = req.body.id;
     const password = req.body.password;
     const name = req.body.name;
@@ -46,23 +50,35 @@ router.post('/', async(req, res) => {
     const address = req.body.address;
 
     const selectQuery = 'SELECT * FROM user WHERE id = ?';
-    const insertQuery = 'INSERT INTO user (id, password, name, email, address, private_key) VALUES (?, ?, ?, ?, ?, ?)';
+    const insertQuery = 'INSERT INTO user (id, password, name, email, address, private_key, wallet_address) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-    const privateKey = web3.eth.accounts.create().privateKey.substr(2);
+    const account = web3.eth.accounts.create();
+    const walletAddress = account.address;
+    const privateKey = account.privateKey;
+    console.log(walletAddress);
     console.log(privateKey);
 
     conn.query(selectQuery, [id], function(err, user) {
-        if (!user) {
-            conn.query(insertQuery, [id, password, name, email, address, privateKey], function(err, insertResult) {
+        if (user.length == 0) {
+            conn.query(insertQuery, [id, password, name, email, address, privateKey, walletAddress], function(err, insertResult) {
                 if (insertResult) {
                     return res.json({code: 200});
+                } else {
+                    return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.USER_DB_INSERT_ERROR));
                 }
 
                 if (err) {
                     console.log(err);
-                    return null;
+                    next(err);
                 }
             });
+        } else {
+            return res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, resMessage.ALREADY_USER));
+        }
+
+        if(err) {
+            console.log(err);
+            next(err);
         }
     })
 });

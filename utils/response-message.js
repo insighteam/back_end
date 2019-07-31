@@ -14,5 +14,9 @@ module.exports = {
     NEED_LOGIN: "로그인이 필요합니다.",
 
     FIND_WALLET_SUCCESS: "사용자 지갑 주소 불러오기 성공",
-    FIND_WALLET_FAIL: "사용자 지갑 주소 불러오기 실패"
+    FIND_WALLET_FAIL: "사용자 지갑 주소 불러오기 실패",
+
+    NO_INVITATIONS: "받은 초대가 없습니다.",
+    INVITATIONS_SUCCESS: "받은 초대가 있습니다."
+
 }

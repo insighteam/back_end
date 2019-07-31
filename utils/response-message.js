@@ -17,6 +17,7 @@ module.exports = {
     FIND_WALLET_FAIL: "사용자 지갑 주소 불러오기 실패",
 
     NO_INVITATIONS: "받은 초대가 없습니다.",
-    INVITATIONS_SUCCESS: "받은 초대가 있습니다."
+    INVITATIONS_SUCCESS: "받은 초대가 있습니다.",
+    CREATED_INVITATION_FAIL: "초대 실패",
 
 }

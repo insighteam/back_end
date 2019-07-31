@@ -64,7 +64,7 @@ router.post('/', async(req, res, next) => {
                 if (insertResult) {
                     return res.json({code: 200});
                 } else {
-                    return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.USER_DB_INSERT_ERROR));
+                    return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.CREATED_USER_FAIL));
                 }
 
                 if (err) {

@@ -20,4 +20,6 @@ module.exports = {
     INVITATIONS_SUCCESS: "받은 초대가 있습니다.",
     CREATED_INVITATION_FAIL: "초대 실패",
 
+    CREATED_CAPSULE_FAIL: "예치금 저장 실패",
+
 }

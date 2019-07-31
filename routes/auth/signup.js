@@ -9,7 +9,7 @@ const utils = require('../../utils/format');
 const resMessage = require('../../utils/response-message');
 const statusCode = require('../../utils/status-code');
 const conn = mysql.createConnection(require('../../config/mysql-config.js'));
-conn.connect()
+conn.connect();
 
 function validateForm(form) {
     if(!form.id) {

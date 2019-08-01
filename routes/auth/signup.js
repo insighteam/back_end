@@ -1,7 +1,6 @@
 var express = require('express');
 var mysql = require('mysql');
 var Web3 = require('web3');
-// web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545")); 
 var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545')); 
 var router = express.Router();
 
@@ -55,8 +54,6 @@ router.post('/', async(req, res, next) => {
     const account = web3.eth.accounts.create();
     const walletAddress = account.address;
     const privateKey = account.privateKey;
-    console.log(walletAddress);
-    console.log(privateKey);
 
     conn.query(selectQuery, [id], function(err, user) {
         if (user.length == 0) {

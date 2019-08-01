@@ -38,7 +38,7 @@ router.post('/', async(req, res, next) => {
             if(password == selectResult[0].password) {
                 const user = {
                     idx: selectResult[0].idx,
-                    private_key: selectResult[0].private_key
+                    wallet_address: selectResult[0].wallet_address
                 };
                 return res.status(200).send(utils.successTrue(statusCode.OK, resMessage.LOGIN_SUCCESS, user));
             } else {

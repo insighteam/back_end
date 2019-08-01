@@ -25,14 +25,16 @@ function validateForm(form) {
 }
 
 router.post('/', async(req, res, next) => {
-    var err = validateForm(req.body);
-    if(err) {
-        console.log(err);
-        return res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, err));
-    }
+    const text = req.body.text || "";
+    const image = req.body.image || "";
+    const latitude = req.body.latitude;
+    const longitude = req.body.longitude;
+    const start_date = req.body.start_date;
+    const end_date = req.body.end_date;
 
-    const findIdxQuery = 'SELECT idx FROM user WHERE private_key = ?';
-    conn.query(findIdxQuery, [req.body.private_key], function(err, findResult) {
+
+    const findIdxQuery = 'SELECT idx FROM user WHERE wallet_address = ?';
+    conn.query(findIdxQuery, [req.body.wallet_address], function(err, findResult) {
         if(findResult == 0) {
             return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.NO_USER));
         } else {
@@ -50,7 +52,34 @@ router.post('/', async(req, res, next) => {
             });
         }
     })
+});
 
+router.post('/money', async(req, res, next) => {
+    var err = validateForm(req.body);
+    if(err) {
+        console.log(err);
+        return res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, err));
+    }
+
+    const findIdxQuery = 'SELECT idx FROM user WHERE wallet_address = ?';
+    conn.query(findIdxQuery, [req.body.wallet_address], function(err, findResult) {
+        if(findResult == 0) {
+            return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.NO_USER));
+        } else {
+            const insertInvitationQuery = 'INSERT INTO capsule (idx, capsule_address, money) VALUES (?, ?, ?)';
+            conn.query(insertInvitationQuery, [findResult[0].idx, req.body.capsule_address, req.body.money], function(err, insertResult) {
+                if (insertResult) {
+                    return res.json({code: 200});
+                } else {
+                    if(err) {
+                        console.log(err);
+                        next(err);
+                    }
+                    return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.CREATED_CAPSULE_FAIL));
+                }
+            });
+        }
+    })
 });
 
 

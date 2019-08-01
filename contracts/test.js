@@ -1,6 +1,8 @@
 var Web3 = require('web3');
 var Tx = require('ethereumjs-tx')
 
+
+// view, pure 함수 호출 양식
 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));  
 var manage_contract_abi = [
 	{
@@ -149,14 +151,19 @@ manage_contract.methods.show().call({from: '0x916443f9f5A372200031918483f64250E6
     console.log(receipt);
 })
 
+var last_contract;
+manage_contract.methods.CheckLastCapsule().call({from: '0x916443f9f5A372200031918483f64250E6d47526'}).then((receipt) => {
+    console.log(receipt);
+    last_contract = receipt;
+})
 
 // https://github.com/ethereum/web3.js/blob/1.x/docs/web3-eth.rst
 var tx = new Tx()
 var private_key = new Buffer('7909e86f821368dab1e1ff1a02770e4a99681ef05910fae83dd5773000c0b5b2', 'hex');
 var rawTx = {
-    nonce: '',
-    gasPrice: '',
-    gasLimit: '',
+    nonce: '0x0',
+    gasPrice: '1',
+    gasLimit: '3000000',
     to: '',
     value: '',
     data: ''
@@ -334,4 +341,4 @@ var capusle_contract_abi = [
 ]
 var capusle_contract = new web3.eth.Contract(capusle_contract_abi, );
 var tx = {from: '0x5105538E6f4bCba192515B613b5eB3C9a6A271e2', }
-web3.eth.accounts.signTransaction(tx, private_key [call back])
+// web3.eth.accounts.signTransaction(tx, private_key [call back])

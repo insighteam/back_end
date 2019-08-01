@@ -13,6 +13,13 @@ module.exports = {
     LOGIN_FAIL: "로그인 실패",
     NEED_LOGIN: "로그인이 필요합니다.",
 
-    USER_LIST_SUCCESS: "사용자 리스트 불러오기 성공",
-    USER_LIST_FAIL: "사용자 리스트 불러오기 실패"
+    FIND_WALLET_SUCCESS: "사용자 지갑 주소 불러오기 성공",
+    FIND_WALLET_FAIL: "사용자 지갑 주소 불러오기 실패",
+
+    NO_INVITATIONS: "받은 초대가 없습니다.",
+    INVITATIONS_SUCCESS: "받은 초대가 있습니다.",
+    CREATED_INVITATION_FAIL: "초대 실패",
+
+    CREATED_CAPSULE_FAIL: "예치금 저장 실패",
+
 }

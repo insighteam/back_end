@@ -21,11 +21,12 @@ function validateForm(form) {
 }
 
 
-router.post('/', async(req, res) => {
+router.post('/', async(req, res, next) => {
 
     var err = validateForm(req.body);
     if(err) {
-        return null;
+        console.log(err);
+        next(err);
     }
 
     const id = req.body.id;
@@ -35,12 +36,23 @@ router.post('/', async(req, res) => {
     conn.query(selectQuery, [id], function(err, selectResult) {
         if(selectResult && selectResult.length > 0) {
             if(password == selectResult[0].password) {
-                return res.json({idx: selectResult[0].idx});
+                const user = {
+                    idx: selectResult[0].idx,
+                    private_key: selectResult[0].private_key
+                };
+                return res.status(200).send(utils.successTrue(statusCode.OK, resMessage.LOGIN_SUCCESS, user));
+            } else {
+                return res.status(200).send(utils.successFalse(statusCode.BAD_REQUEST, resMessage.MISSMATCH_PW));
             }
+        } else {
+            return res.status(200).send(utils.successFalse(statusCode.NOT_FOUND, resMessage.LOGIN_FAIL));
+        }
+
+        if(err) {
+            console.log(err);
+            next(err);
         }
     })
-
-    return null;
 });
 
 module.exports = router;

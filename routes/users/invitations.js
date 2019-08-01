@@ -55,11 +55,11 @@ router.post('/:idx/invitations', async(req, res, next) => {
     try{
         const findIdxQuery = 'SELECT idx FROM user WHERE id = ?';
         conn.query(findIdxQuery, [req.body.id], function(err, idx) {
-            if(idx == 0) {
+            if(idx[0].idx == 0) {
                 return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.NO_USER));
             } else {
                 const insertInvitationQuery = 'INSERT INTO invitation (idx, latitude, longitude, money, end_date) VALUES (?, ?, ?, ?, ?)';
-                conn.query(insertInvitationQuery, [idx, req.body.latitude, req.body.longitude, req.body.money, req.body.end_date], function(err, insertResult) {
+                conn.query(insertInvitationQuery, [idx[0].idx, req.body.latitude, req.body.longitude, req.body.money, req.body.end_date], function(err, insertResult) {
                     if (insertResult) {
                         return res.json({code: 200});
                     } else {

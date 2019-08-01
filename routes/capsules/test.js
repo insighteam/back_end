@@ -169,7 +169,7 @@ let manage = new web3.eth.Contract([
     }).on('receipt', (receipt)=> {
         console.log(receipt);
     }).then((txhash)=>{
-        console.log(txhash);
+        // console.log(txhash);
     }).then(()=> {
         
         manage.methods.CheckLastCapsule().send({})

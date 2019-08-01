@@ -151,32 +151,24 @@ web3.eth.getTransactionCount(server_address)
 
     manage.methods.Bury(10,'0x6cd3a93c7110cF79fF50979430e9FF2D4DE315F7',11, 11, 86400, hash)
     .send(
-        {nonce: nonce,
-        from: server_address,
-        to: manage_contract,
-        gasPrice: 20000000000,
-        gasLimit: 6721975,
-        value: 11}, (err, txhash)=> {
-        if(err) {
-            console.log(err);
+		{nonce: nonce,
+		from: server_address,
+		to: manage_contract,
+		gasPrice: 20000000000,
+		gasLimit: 6721975,
+		value: 11}, (err, txhash)=> {
+		if(err) {
+			console.log(err);
 		}
-	
+	 
 		return txhash;
-    }).then((res)=> {
-		console.log(res);
-	})
-}).then(()=> {
-	manage.getPastEvents('last', {
-		filter: {owner: '0x6cd3a93c7110cF79fF50979430e9FF2D4DE315F7'}, // Using an array means OR: e.g. 20 or 23
-		fromBlock: 0,
-		toBlock: 'latest'
-	}, function(error, events){ console.log(events); })
-	.then(function(events){
-		console.log(events) // same results as the optional callback above
+	}).then((res)=> {
+		return manage.methods.CheckLastCapsule().call({
+			 from: server_address,
+			 gasPrice: 20000000000,
+			 gasLimit: 6721975
+			}).then((asdf) => {
+				console.log(asdf);
+			});
 	});
 })
-
-
-
-
-

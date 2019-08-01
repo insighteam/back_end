@@ -4,6 +4,22 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const Tx = require('ethereumjs-tx');
+const initConfig = require('./init');
+const LogicHelloWorldJSON = require('../build/contracts/manage.json');
+const web3 = initConfig.web3;
+const user_address = initConfig.user_address;
+const user_pk = initConfig.user_pk;
+const logic_ledger = initConfig.logic_leger;
+const proxy_ledger = initConfig.proxy_ledger;
+const registed_user_address = initConfig.registed_user_address;
+const gasPrice = initConfig.gas_price;
+
+let hash = '0x011111'; // ipfs 구현 후 수정
+var server_address = user_address;
+let manage_contract = '0x13FcDeD35083D926f2BC6d64028a8A643B835c3f'
+let manage = new web3.eth.Contract(LogicHelloWorldJSON.abi, manage_contract);
+
 
 const session = require('express-session'); // 세션 설정
 const passport = require('passport');

@@ -14,7 +14,7 @@ const gasPrice = initConfig.gas_price;
 
 let hash = '0x011111'; // ipfs 구현 후 수정
 var server_address = user_address;
-let manage_contract = '0x13FcDeD35083D926f2BC6d64028a8A643B835c3f'
+let manage_contract = '0x13FcDeD35083D926f2BC6d64028a8A643B835c3f';
 let manage = new web3.eth.Contract(LogicHelloWorldJSON.abi, manage_contract);
 
 const utils = require('../../utils/format');
@@ -47,8 +47,9 @@ router.post('/', async(req, res, next) => {
     const longitude = req.body.longitude;
     const start_date = req.body.start_date;
     const end_date = req.body.end_date;
+    const money = req.body.money;
     // end_date를 초로 만들어줘야 함, 아래 end_seconds
-    const end_seconds = 10;
+    const end_seconds = req.body.end_seconds;
     var hash = '0x1343'
 
     web3.eth.getTransactionCount(server_address).then((nonce) => {
@@ -98,10 +99,21 @@ router.post('/', async(req, res, next) => {
                         gasLimit: 6721975
                     }).then((newAddress) => {
                         console.log(newAddress);
-                        //주소 받음.
+                        const insertInvitationQuery = 'INSERT INTO capsule (idx, capsule_address, money) VALUES (?, ?, ?)';
+                        conn.query(insertInvitationQuery, [findResult[0].idx, newAddress, req.body.money], function(err, insertResult) {
+                            if (insertResult) {
+                                return res.json({code: 200});
+                            } else {
+                                if(err) {
+                                    console.log(err);
+                                    next(err);
+                                }
+                                return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.CREATED_CAPSULE_FAIL));
+                        }
                     });
                 });
         })
+    })
 });
 
 router.post('/money', async(req, res, next) => {

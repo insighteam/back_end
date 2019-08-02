@@ -74,4 +74,33 @@ router.post('/:idx/invitations', async(req, res, next) => {
     }
 });
 
+// router.delete('/:idx/invitations/:id', async(req, res, next) => {
+//     var err = validateForm(req.body);
+//     if(err) {
+//         console.log(err);
+//         next(err);
+//     }
+
+//     try{
+//         const deleteQuery = 'DELETE FROM invitation WHERE idx = ? AND id = ?';
+//         conn.query(deleteQuery, [req.body.id], function(err, idx) {
+//             if(idx[0].idx == 0) {
+//                 return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.NO_USER));
+//             } else {
+//                 const insertInvitationQuery = 'INSERT INTO invitation (idx, latitude, longitude, money, end_date) VALUES (?, ?, ?, ?, ?)';
+//                 conn.query(insertInvitationQuery, [idx[0].idx, req.body.latitude, req.body.longitude, req.body.money, req.body.end_date], function(err, insertResult) {
+//                     if (insertResult) {
+//                         return res.json({code: 200});
+//                     } else {
+//                         return res.status(200).send(utils.successFalse(statusCode.DB_ERROR, resMessage.CREATED_INVITATION_FAIL));
+//                     }
+//                 });
+//             }
+//         })
+//     } catch(err) {
+//         console.log(err);
+//         next(err);
+//     }
+// });
+
 module.exports = router;
